@@ -37,7 +37,6 @@ const props = defineProps({
 });
 
 const { speed } = selectedUnit.value;
-console.log(props);
 const windDirection = computed(() => (props?.wind?.deg + 180) || 0);
 </script>
 
