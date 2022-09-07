@@ -1,0 +1,83 @@
+$breakpoints: (
+  xsmall: 0,
+  mobile: 375px,
+  small: 576px,
+  tablet: 768px,
+  large-tablet: 960px,
+  small-desktop: 1024px,
+  desktop: 1280px,
+  large-desktop: 1440px,
+) !default;
+
+
+@function map-next($map, $key) {
+  $values: map-keys($map);
+  $i: 0;
+  @if (map-has-key($map, $key)) {
+    $i: index($values, $key) + 1;
+  }
+  @if ($i > length($map) or $i == 0) {
+    @return null;
+  } @else {
+    @return map-get($map, nth($values, $i));
+  }
+}
+
+@mixin breakpoint($request) {
+  $request: if(type-of($request) != list, ($request), $request);
+  $size: nth($request, 1);
+  $state: if(length($request) == 2, nth($request, 2), down);
+  @if not index((only, down, up), $state) {
+    @error 'No such state: #{$state}';
+    $state: 'down';
+  }
+  $bp: 0;
+  @if map-has-key($breakpoints, $size) {
+    $bp: map-get($breakpoints, $size);
+  } @else {
+    @error 'No such breakpoint!';
+  }
+
+  $bp2: map-next($breakpoints, $size);
+  $edge-values: if($bp == 0 or $bp2 == null, true, false);
+
+  @if $bp == 0 {
+    // if smallest
+    @if $state == only or $state == down {
+      // xsmall, only
+      @media screen and (max-width: $bp2) {
+        @content;
+      }
+    } @else {
+      @content;
+    }
+  }
+
+  @if $bp2 == null {
+    // if largest
+    @if $state == up {
+      @media screen and (min-width: $bp + 1) {
+        @content;
+      }
+    } @else {
+      @content;
+    }
+  }
+
+  @if $state == down and not $edge-values {
+    // Any bp, and down
+    @media screen and (max-width: $bp) {
+      @content;
+    }
+  } @else if $state == only and not $edge-values {
+    // Any bp, and only
+    @media screen and (min-width: $bp + 1) and (max-width: $bp2) {
+      @content;
+    }
+  } @else if not $edge-values {
+    // Any bp, and up
+    @media screen and (min-width: $bp + 1) {
+      @content;
+    }
+  }
+}
