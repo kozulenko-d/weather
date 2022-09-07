@@ -56,7 +56,7 @@ Promise.all(selectedCities.value.map(city => weatherStore.fetchWeatherInfo(city)
   }
 
   @include breakpoint(xsmall) {
-    max-width: 355px;
+    max-width: 380px;
   }
 }
 
