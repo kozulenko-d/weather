@@ -1,5 +1,5 @@
 <template>
-  <div class="loader" :class="{ 'loader--full': fullScreen }">
+  <div class="loader" :class="{ 'loader--full': props.fullScreen }">
     <div class="loader-container">
       <svg class="loader-circle">
         <circle cx="50%" cy="50%" r="40%"></circle>
@@ -9,7 +9,7 @@
 </template>
 
 <script setup>
-const { fullScreen } = defineProps({
+const props = defineProps({
   fullScreen: {
     type: Boolean,
     default: false,

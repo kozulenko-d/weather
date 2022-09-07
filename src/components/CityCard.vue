@@ -24,7 +24,7 @@ import { storeToRefs } from 'pinia';
 import { useWeatherStore } from '@/stores/weather';
 import AppCompass from '@/components/ui/AppCompass.vue';
 
-const { city } = defineProps({
+const props = defineProps({
   city: {
     type: Object,
     required: true,
@@ -35,8 +35,8 @@ const { city } = defineProps({
 const weatherStore = useWeatherStore();
 const { getWeatherByCity, selectedUnit, cities } = storeToRefs(weatherStore);
 
-const cityInfo = computed(() => getWeatherByCity.value(city.id)) || {};
-const cityName = computed(() => cities.value.find(item => item.id === city.id)?.name) || '';
+const cityInfo = computed(() => getWeatherByCity.value(props?.city.id)) || {};
+const cityName = computed(() => cities.value.find(item => item.id === props?.city.id)?.name) || '';
 const temperature = computed(() => Math.round(cityInfo.value?.main?.temp) || '');
 const currentWeather = computed(() => cityInfo.value?.weather?.[0] || {});
 const weatherIconDescription = computed(() => currentWeather.value?.description || '');
@@ -45,9 +45,9 @@ const weatherIconSource = computed(() => {
   return icon ? `https://openweathermap.org/img/wn/${icon}@2x.png` : '';
 });
 
-const windInfo = computed(() => getWeatherByCity.value(city.id)?.wind || {});
-const rainInfo = computed(() => getWeatherByCity.value(city.id)?.rain || {});
-const snowInfo = computed(() => getWeatherByCity.value(city.id)?.snow || {});
+const windInfo = computed(() => getWeatherByCity.value(props?.city.id)?.wind || {});
+const rainInfo = computed(() => getWeatherByCity.value(props?.city.id)?.rain || {});
+const snowInfo = computed(() => getWeatherByCity.value(props?.city.id)?.snow || {});
 
 const precipitation = computed(() => {
   const result = [];

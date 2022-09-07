@@ -28,7 +28,7 @@ import { useWeatherStore } from '@/stores/weather';
 const weatherStore = useWeatherStore();
 const { selectedUnit } = storeToRefs(weatherStore);
 
-const { wind } = defineProps({
+const props = defineProps({
   wind: {
     type: Object,
     required: true,
@@ -37,7 +37,8 @@ const { wind } = defineProps({
 });
 
 const { speed } = selectedUnit.value;
-const windDirection = computed(() => (wind?.deg + 180) || 0);
+console.log(props);
+const windDirection = computed(() => (props?.wind?.deg + 180) || 0);
 </script>
 
 <style scoped lang="scss">
