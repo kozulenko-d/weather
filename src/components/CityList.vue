@@ -8,7 +8,6 @@
       ></button>
     </p>
 
-
     <ul
       class="city-select-list"
       :class="{'city-select-list--hide': !isDropdownActive}"
